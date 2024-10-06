@@ -1,0 +1,10 @@
+.section__container {
+  @extend %outside-padding, %center;
+  padding-bottom: 20rem;
+}
+
+.section__title {
+  max-width: col(9);
+  width: 100%;
+  margin-bottom: 8rem;
+}

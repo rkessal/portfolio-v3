@@ -1,0 +1,18 @@
+extends ../base.pug
+
+block variables 
+  - var template = 'privacidade'
+
+block content
+  .privacidade
+    .privacidade__wrapper
+      .privacidade__title(data-animation="title")=document.data.title
+      .privacidade__description!=(PrismicDOM.asHTML(document.data.description)).replace(/<p>/g, '<p data-animation="paragraph">')
+
+      each item in document.data.body
+        .privacidade__section
+          .privacidade__section__wrapper
+            .privacidade__section__title(data-animation="title")=item.primary.subtitle
+            .privacidade__section__content!=(PrismicDOM.asHTML(item.primary.content)).replace(/<p>/g, '<p data-animation="paragraph">')
+      
+      .privacidade__note=document.data.note

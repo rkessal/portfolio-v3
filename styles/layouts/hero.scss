@@ -1,0 +1,33 @@
+.hero__container {
+  height: 32rem;
+  @extend %center;
+  flex-direction: column;
+}
+
+.hero__title {
+  margin-bottom: 1rem;
+  max-width: col(9);
+  width: 100%;
+}
+
+.hero__subtitle {
+  margin-bottom: 2rem;
+}
+
+.hero__ctas {
+  :not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+.hero__ctas__secondary {
+  @include button(false);
+}
+
+.hero__ctas__primary {
+  @include button(true);
+}
+
+.hero__introduction {
+  display: none;
+}

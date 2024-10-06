@@ -1,0 +1,35 @@
+html {
+  font-size: calc((100vw / 1440) * 16);
+  background: $color-primary;
+
+  @include media('<=phone') {
+    font-size: calc(100vw / 768 * 16);
+  }
+
+}
+
+body {
+  position: relative;
+  font-size: 1.125rem;
+  font-family: $font-sans;
+  color: $color-secondary;
+  height: 100%;
+}
+
+
+h1 {
+  @extend %title-1;
+}
+
+h2 {
+  @extend %title-2;
+}
+
+h3 {
+  @extend %paragraph-1;
+}
+
+.content {
+  padding-top: 6rem;
+  padding-bottom: 16rem;
+}

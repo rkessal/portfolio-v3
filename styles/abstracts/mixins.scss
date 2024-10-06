@@ -1,0 +1,59 @@
+%cover {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+%center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+%outside-padding {
+  padding-inline: $outside-margin;
+}
+
+%paragraph-1 {
+  font-size: 3rem;
+  line-height: 120%;
+  letter-spacing: -0.1rem;
+}
+
+%title-1 {
+  text-align: center;
+  letter-spacing: -0.1rem;
+  font-size: 4.75rem;
+  font-family: $font-serif;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1;
+}
+
+%title-2 {
+  font-size: 3.5rem;
+  font-family: $font-sans-ex;
+  text-transform: uppercase;
+  letter-spacing: -0.1rem;
+}
+
+@function col($number) {
+  @return calc((6.625rem * $number) + ($number - 1) * 0.5rem);
+}
+
+
+@mixin w-col($number) {
+  width: col($number);
+}
+
+@mixin button($primary) {
+  min-width: col(2);
+  background-color: if($primary, $color-secondary, $color-primary);
+  color: if($primary, $color-primary, $color-secondary);
+  border: if($primary, null, 1px solid $color-secondary );
+  padding: 0.625rem 1rem;
+  border-radius: 999px;
+}

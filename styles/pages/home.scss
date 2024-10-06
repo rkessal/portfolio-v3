@@ -1,0 +1,157 @@
+.section__variant-1__container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.section__variant-1__left {
+  max-width: col(6);
+  width: 100%;
+}
+
+.section__variant-1__title {}
+
+.section__variant-1__right {
+  max-width: col(6);
+  width: 100%;
+}
+
+.section__variant-1__description {
+  @extend %paragraph-1;
+}
+
+.section__variant-2__container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.section__variant-2__left {
+  max-width: col(7);
+  width: 100%;
+}
+
+.section__variant-2__left__items {
+  width: 100%;
+  position: relative;
+}
+
+.section__variant-2__title {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: calc(col(1) + 0.5rem);
+}
+
+.section__variant-2__subtitle {
+  font-family: $font-serif;
+  font-size: 32rem;
+  opacity: 0.2;
+  font-style: italic;
+  line-height: 1;
+}
+
+.section__variant-2__right {
+  max-width: col(3);
+  width: 100%;
+}
+
+.section__variant-2__description {
+  line-height: 150%;
+}
+
+.section__variant-3__container {
+  @extend %center;
+}
+
+.section__variant-3__item {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: col(6);
+  @extend %center;
+}
+
+.section__variant-3__title {
+  margin-bottom: 2rem;
+}
+
+.section__variant-3__description {
+  line-height: 150%;
+  max-width: col(4);
+}
+
+.section__variant-4__container {
+  @extend %center;
+  position: relative;
+}
+
+.section__variant-4__item {
+  max-width: col(8);
+  width: 100%;
+}
+
+.section__variant-4__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.section__variant-4__description {
+  margin-left: auto;
+  text-align: right;
+  line-height: 150%;
+}
+
+.section__variant-4__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.section__variant-5__container {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+}
+
+.section__variant-5__item {
+  display: flex;
+  flex-direction: column;
+  width: col(6);
+  flex-shrink: 0;
+
+  &:not(:last-child) {
+    margin-right: calc(col(1) + 0.5rem)
+  }
+}
+
+.section__variant-5__description {
+  @extend %paragraph-1;
+  margin-bottom: 2rem;
+}
+
+.section__variant-5__subtitle {
+  p {
+    margin-bottom: 0.5rem;
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+.section__variant-6__container {}
+
+.section__variant-6__item {
+  max-width: col(8);
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+.section__variant-6__title {
+  margin-bottom: 2rem;
+}
+
+.section__variant-6__description {
+  line-height: 150%;
+}

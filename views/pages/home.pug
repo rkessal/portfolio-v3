@@ -1,0 +1,69 @@
+extends ../base.pug
+
+block variables 
+  - var template = 'home'
+
+block content
+  .home
+    .hero__container 
+      .hero__title!=(PrismicDOM.asHTML(document.data.hero_title))
+      .hero__subtitle!=(PrismicDOM.asHTML(document.data.hero_subtitle))
+      .hero__ctas
+        a.hero__ctas__secondary(href=PrismicDOM.asLink(document.data.hero_cta_secondary)) Discover
+        a.hero__ctas__primary(href=PrismicDOM.asLink(document.data.hero_cta_primary)) Start Now
+      .hero__introduction!=(PrismicDOM.asHTML(document.data.hero_introduction))
+    
+    each slice in document.data.body
+      if slice.slice_type == 'section_variant_1'
+        section.section__container(id=slice.primary.section_id)
+          .section__title!=(PrismicDOM.asHTML(slice.primary.section_title))
+
+          if (slice.primary.section_variant == '1')
+            .section__variant-1__container
+              .section__variant-1__left
+                each item of slice.items
+                  h2.section__variant-1__title=item.section_part_title
+              .section__variant-1__right
+                each item of slice.items
+                  .section__variant-1__description!=(PrismicDOM.asHTML(item.section_part_description))
+
+          if (slice.primary.section_variant == '2')
+            .section__variant-2__container
+              .section__variant-2__left
+                each item of slice.items
+                  .section__variant-2__left__items
+                    h2.section__variant-2__title=item.section_part_title
+                    .section__variant-2__subtitle!=PrismicDOM.asHTML(item.section_part_subtitle)
+              .section__variant-2__right
+                each item of slice.items
+                  .section__variant-2__description!=(PrismicDOM.asHTML(item.section_part_description))
+
+          if (slice.primary.section_variant == '3')
+            .section__variant-3__container
+              each item of slice.items
+                .section__variant-3__item
+                  h2.section__variant-3__title=item.section_part_title
+                  .section__variant-3__description!=(PrismicDOM.asHTML(item.section_part_description))
+
+          if (slice.primary.section_variant == '4')
+            .section__variant-4__container
+              each item of slice.items
+                .section__variant-4__item
+                  .section__variant-4__title=item.reference.data.project_title
+                  img.section__variant-4__image(src=PrismicDOM.asImageSrc(item.reference.data.project_image))
+                  .section__variant-4__description!=(PrismicDOM.asHTML(item.reference.data.project_description))
+
+          if (slice.primary.section_variant == '5')
+            .section__variant-5__container
+              each item in slice.items
+                .section__variant-5__item
+                  .section__variant-5__description!=(PrismicDOM.asHTML(item.section_part_description))
+                  .section__variant-5__subtitle!=PrismicDOM.asHTML(item.section_part_subtitle)
+
+
+          if (slice.primary.section_variant == '6')
+            .section__variant-6__container
+              each item of slice.items
+                .section__variant-6__item
+                  h3.section__variant-6__title=item.section_part_title
+                  .section__variant-6__description!=(PrismicDOM.asHTML(item.section_part_description))

@@ -1,0 +1,44 @@
+.navigation {
+  @extend %outside-padding;
+  padding-block: 2rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navigation__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navigation__logo {
+  @include w-col(2);
+
+  a {
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.navigation__links {
+  :not(:last-child) {
+    margin-right: 2.25rem;
+  }
+
+  button {
+    background-color: $color-secondary;
+    color: $color-primary;
+    padding: 0.625rem 1rem;
+    border-radius: 999px;
+    min-width: col(1);
+  }
+}
+
+.navigation__inner__links {
+  display: none;
+}
+
+.navigation__links__item {}
