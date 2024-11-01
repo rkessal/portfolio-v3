@@ -15,6 +15,7 @@
 
 %outside-padding {
   padding-inline: $outside-margin;
+  overflow-x: clip;
 }
 
 %paragraph-1 {
