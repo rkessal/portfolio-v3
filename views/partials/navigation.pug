@@ -8,11 +8,12 @@ nav.navigation
         if (slice.slice_type == 'navigation_cta')
           each item of slice.items
             a(href=PrismicDOM.asLink(item.navigation_cta_link))=item.navigation_cta_link_label
-      button Menu
+      button(data-menu-button) Menu
     .navigation__inner__links
       each slice of navigation.data.body
         if (slice.slice_type == 'navigation_link')
-          a.navigation__links__item(href=PrismicDOM.asLink(slice.primary.navigation_link_url))=slice.primary.navigation_link_label
+          .navigation__links__item
+            a(href=PrismicDOM.asLink(slice.primary.navigation_link_url))=slice.primary.navigation_link_label
 
       
   

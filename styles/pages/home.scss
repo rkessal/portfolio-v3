@@ -177,7 +177,7 @@
 .section__variant-5__item {
   display: flex;
   flex-direction: column;
-  width: col(6);
+  width: col(10);
   flex-shrink: 0;
 
   &:not(:last-child) {
@@ -191,10 +191,6 @@
 }
 
 .section__variant-5__subtitle {
-  p {
-    margin-bottom: 0.5rem;
-  }
-
   em {
     font-style: italic;
   }
@@ -209,6 +205,10 @@
   padding-block: 2rem;
   height: 7.725rem;
   overflow-y: clip;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &:first-child {
     border-top: rgba($color-secondary, 0.3) 1px solid;

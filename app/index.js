@@ -361,12 +361,93 @@ const section6StateMap = new Proxy(
   }
 })
 
-const onArrowClick = (e) => {
-  const index = e.target.getAttribute('data-variant-6-arrow-index')
+const onSection6ItemClick = (e) => {
+  const index = e.currentTarget.getAttribute('data-variant-6-item-index')
   section6StateMap[index] = !section6StateMap[index]
 }
 
-section6Arrows.forEach(arrow => arrow.addEventListener('click', onArrowClick))
+const section6Items = gsap.utils.toArray(section6Container.querySelectorAll('.section__variant-6__item'))
+section6Items.forEach(item => item.addEventListener('click', onSection6ItemClick))
+
+gsap.from(section6Items, {
+  scrollTrigger: {
+    trigger: section6Container,
+    start: 'top center'
+  },
+  autoAlpha: 0,
+  yPercent: 50,
+  stagger: 0.1
+})
+
+const onChangeMenuState = ({ value }) => {
+  if (value) {
+    gsap.set('.navigation__links__item a', {
+      yPercent: 100
+    })
+    const tl = gsap.timeline({
+    })
+    tl.to('.navigation__inner__links', {
+      width: '50%',
+      duration: 1.5,
+      ease: 'power4.inOut'
+    })
+    .to('.navigation__links__item a', {
+      yPercent: 0,
+      duration: 1.5,
+      ease: 'power4.out',
+      stagger: 0.1
+    }, '-=1')
+  } else {
+    const tl = gsap.timeline()
+    tl.to('.navigation__links__item a', {
+      yPercent: 100,
+      duration: 1.5,
+      ease: 'power4.out'
+    })
+    .to('.navigation__inner__links', {
+      width: 0,
+      duration: 1.5,
+      ease: 'power4.out'
+    }, '-=1.3')
+  }
+}
+
+gsap.set('.navigation__inner__links', {
+  width: 0,
+  overflow: 'hidden',
+  perspective: 300
+})
+
+gsap.set('.navigation__links__item', {
+  overflowY: 'clip'
+})
+
+const menuState = new Proxy({
+  open: false
+},
+{
+  set(target, property, value) {
+    onChangeMenuState({ value })
+    target[property] = value;
+    return true;
+  }
+})
+
+const onMenuButtonClick = () => {
+  menuState.open = !menuState.open
+}
+
+const onMenuLinkClick = () => {
+  setTimeout(() => menuState.open = false, 250)
+}
+
+const menuButton = document.querySelector('[data-menu-button]')
+menuButton.addEventListener('click', onMenuButtonClick)
+
+const menuLinks = document.querySelectorAll('.navigation__links__item a')
+menuLinks.forEach(link => link.addEventListener('click', onMenuLinkClick))
+
+
 
 gsap.utils.toArray('[data-src]').forEach(async img => {
   const src = img.getAttribute('data-src')

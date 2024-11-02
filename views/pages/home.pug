@@ -56,7 +56,8 @@ block content
               each item of slice.items
                 .section__variant-4__item
                   figure.section__variant-4__image
-                    img(data-src=PrismicDOM.asImageSrc(item.reference.data.project_image))
+                    a(href=PrismicDOM.asLink(item.reference.data.project_link) target='_blank')
+                      img(data-src=PrismicDOM.asImageSrc(item.reference.data.project_image))
                   h2.section__variant-4__title=item.reference.data.project_title
                   .section__variant-4__description!=(PrismicDOM.asHTML(item.reference.data.project_description))
 
