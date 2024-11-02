@@ -21,27 +21,33 @@ block content
           if (slice.primary.section_variant == '1')
             .section__variant-1__container
               .section__variant-1__left
-                each item of slice.items
-                  h2.section__variant-1__title=item.section_part_title
+                  each item, index in slice.items
+                    h2.section__variant-1__title(data-variant-1-title-idx=index)=item.section_part_title
               .section__variant-1__right
-                each item of slice.items
-                  .section__variant-1__description!=(PrismicDOM.asHTML(item.section_part_description))
+                each item, index in slice.items
+                  .section__variant-1__description(data-variant-1-desc-idx=index)!=(PrismicDOM.asHTML(item.section_part_description))
 
           if (slice.primary.section_variant == '2')
             .section__variant-2__container
               .section__variant-2__left
-                each item of slice.items
-                  .section__variant-2__left__items
+                each item, index in slice.items
+                  .section__variant-2__left__items(data-variant-2-item-idx=index)
                     h2.section__variant-2__title=item.section_part_title
-                    .section__variant-2__subtitle!=PrismicDOM.asHTML(item.section_part_subtitle)
+                    .section__variant-2__subtitle
+                      span 0
+                      span.section__variant-2__substitle__number!=PrismicDOM.asHTML(item.section_part_subtitle)
               .section__variant-2__right
-                each item of slice.items
-                  .section__variant-2__description!=(PrismicDOM.asHTML(item.section_part_description))
+                each item, index in slice.items
+                  .section__variant-2__description(data-variant-2-desc-idx=index)!=(PrismicDOM.asHTML(item.section_part_description))
 
           if (slice.primary.section_variant == '3')
             .section__variant-3__container
-              each item of slice.items
-                .section__variant-3__item
+              .section__variant-3__bullet-indicator
+                .section__variant-3__bullet-indicator__wrapper
+                  each item, index in slice.items
+                    span(data-index=index)
+              each item, index in slice.items
+                .section__variant-3__item(data-index=index)
                   h2.section__variant-3__title=item.section_part_title
                   .section__variant-3__description!=(PrismicDOM.asHTML(item.section_part_description))
 
@@ -49,21 +55,30 @@ block content
             .section__variant-4__container
               each item of slice.items
                 .section__variant-4__item
-                  .section__variant-4__title=item.reference.data.project_title
-                  img.section__variant-4__image(src=PrismicDOM.asImageSrc(item.reference.data.project_image))
+                  figure.section__variant-4__image
+                    a(href=PrismicDOM.asLink(item.reference.data.project_link) target='_blank')
+                      img(data-src=PrismicDOM.asImageSrc(item.reference.data.project_image))
+                  h2.section__variant-4__title=item.reference.data.project_title
                   .section__variant-4__description!=(PrismicDOM.asHTML(item.reference.data.project_description))
 
           if (slice.primary.section_variant == '5')
             .section__variant-5__container
-              each item in slice.items
-                .section__variant-5__item
-                  .section__variant-5__description!=(PrismicDOM.asHTML(item.section_part_description))
-                  .section__variant-5__subtitle!=PrismicDOM.asHTML(item.section_part_subtitle)
+              .section__variant-5__wrapper
+                each item in slice.items
+                  .section__variant-5__item
+                    .section__variant-5__description!=(PrismicDOM.asHTML(item.section_part_description))
+                    .section__variant-5__subtitle!=PrismicDOM.asHTML(item.section_part_subtitle)
 
 
           if (slice.primary.section_variant == '6')
             .section__variant-6__container
-              each item of slice.items
-                .section__variant-6__item
-                  h3.section__variant-6__title=item.section_part_title
+              each item, index in slice.items
+                .section__variant-6__item(data-variant-6-item-index=index)
+                  .section__variant-6__row
+                    .section__variant-6__number
+                      span #{String(index + 1).padStart(2, '0')}
+                    h3.section__variant-6__title=item.section_part_title
+                    span.section__variant-6__arrow(data-variant-6-arrow-index=index)
+                      svg(xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 23 33.7")
+                        path(id="Path_44" class="st0" d="M22.6,21c-.6-.6-1.6-.6-2.2,0,0,0,0,0,0,0l-7.3,7.3V1.5c0-.9-.7-1.6-1.6-1.5-.8,0-1.5.7-1.5,1.5v26.7l-7.2-7.2c-.6-.6-1.6-.6-2.2,0-.6.6-.6,1.6,0,2.2l10,10c.5.6,1.4.6,2,0,0,0,0,0,0,0l10.1-10c.6-.6.6-1.6,0-2.2,0,0,0,0,0,0Z")
                   .section__variant-6__description!=(PrismicDOM.asHTML(item.section_part_description))

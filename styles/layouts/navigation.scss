@@ -1,4 +1,5 @@
 .navigation {
+  z-index: 50;
   @extend %outside-padding;
   padding-block: 2rem;
   position: fixed;
@@ -13,6 +14,7 @@
 }
 
 .navigation__logo {
+  z-index: 2;
   @include w-col(2);
 
   a {
@@ -24,6 +26,8 @@
 }
 
 .navigation__links {
+  z-index: 2;
+
   :not(:last-child) {
     margin-right: 2.25rem;
   }
@@ -38,7 +42,23 @@
 }
 
 .navigation__inner__links {
-  display: none;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  background-color: $color-dark;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 50%;
 }
 
-.navigation__links__item {}
+.navigation__links__item {
+  @extend %title-2;
+  margin-right: 2.5rem;
+
+  a {
+    display: block;
+  }
+}
