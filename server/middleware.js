@@ -1,8 +1,10 @@
 const { client } = require('../config/prismic')
 const PrismicDOM = require('@prismicio/helpers')
+const { langs } = require('./lang')
 
 async function middleware (req, res, next) {
-  const navigation = await client.getSingle('navigation')
+  const lang = langs.includes(req.query.lang) ? req.query.lang : 'en-us'
+  const navigation = await client.getSingle('navigation', { lang })
   const footer = await client.getSingle('footer', {
     graphQuery: `{
       footer {
@@ -13,6 +15,7 @@ async function middleware (req, res, next) {
         }
       }
     }`,
+    lang
   })
 
   res.locals = {

@@ -1,12 +1,19 @@
 const { client } = require('../config/prismic')
+const { langs } = require('./lang')
 const { homeQuery } = require('./queries')
 
 async function homeHandler (req, res) {
+  const lang = langs.includes(req.query.lang) ? req.query.lang : 'en-us'
   const document = await client.getSingle('home', {
-    graphQuery: homeQuery
+    graphQuery: homeQuery,
+    lang
   })
+
+  const oppositeLang = lang === 'fr-fr' ? 'en-us' : 'fr-fr'
+
   res.render('pages/home', {
-    document
+    document,
+    oppositeLang
   })
 }
 
