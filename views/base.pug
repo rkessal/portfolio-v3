@@ -33,13 +33,11 @@ html(lang="en")
     meta(name="twitter:description" content=document.data.description)
     meta(name="twitter:image" content=document.data.image ? document.data.image.url : '')
   
-  body(data-phone=isPhone)
-    //include ./partials/preloader
+  body(data-phone=device)
     include ./partials/navigation
 
     main.content#content(data-template=template)
       block content
     
     include ./partials/footer
-    //include ./partials/whatsapp
   script(src="main.js") 

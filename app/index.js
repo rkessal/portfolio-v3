@@ -1,44 +1,150 @@
 import Lenis from 'lenis'
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import SplitType from 'split-type';
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import ScrollToPlugin from 'gsap/ScrollToPlugin'
+import { desktop } from './desktop'
+import { mobile } from './mobile'
+import {
+  eventListeners,
+  eventListenersDesktop,
+  eventListenersMobile,
+  gsapElements,
+  removeAllEventListeners,
+  resetAllScrollTriggers,
+  resetGsapElements,
+  scrollTriggers
+} from './utils'
+import SplitType from 'split-type'
 
-const COLOR_PRIMARY = '#94A684'
 const COLOR_SECONDARY = '#EEF6E8'
-const COLOR_DARK = '#536247'
 
 gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollToPlugin)
 
-const lenis = new Lenis();
+const lenis = new Lenis()
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
+function raf (time) {
+  lenis.raf(time)
+  window.requestAnimationFrame(raf)
 }
 
-requestAnimationFrame(raf);
+window.requestAnimationFrame(raf)
 
-const SECTION_1_TITLE_OPACITY = 0.4
-const SECTION_1_TITLE_DEFAULT_STATE = {
-  opacity: SECTION_1_TITLE_OPACITY,
-  xPercent: 0,
-  ease: 'power4.out',
-  rotationY: 0,
+const handleDevice = (value) => {
+  resetGsapElements(gsapElements)
+  resetAllScrollTriggers()
+  state.menu = false
+  if (value) {
+    removeAllEventListeners(eventListenersDesktop)
+    mobile()
+  } else {
+    removeAllEventListeners(eventListenersMobile)
+    desktop()
+  }
 }
 
-const observeClassChange = (callback) => new MutationObserver((mutations) => {
-  mutations.forEach(mu => {
-    if (mu.type !== "attributes" || mu.attributeName !== "class") return;
-    callback(mu.target); 
-  });
-});
+const closeMenu = () => {
+  const tl = gsap.timeline()
+  tl.to('.navigation__links__item a', {
+    yPercent: 100,
+    duration: 1.5,
+    ease: 'power4.out'
+  })
+    .to('.navigation__inner__links', {
+      width: 0,
+      duration: 1.5,
+      ease: 'power4.out'
+    }, '-=1.3')
+}
 
+const openMenu = () => {
+  gsap.set('.navigation__links__item a', {
+    yPercent: 100
+  })
+  const tl = gsap.timeline({
+  })
+  tl.to('.navigation__inner__links', {
+    width: state.mobile ? '100%' : '60%',
+    duration: 1.5,
+    ease: 'power4.inOut'
+  })
+    .to('.navigation__links__item a', {
+      yPercent: 0,
+      duration: 1.5,
+      ease: 'power4.out',
+      stagger: 0.1
+    }, '-=1')
+}
 
-gsap.utils.toArray('.section__title').forEach(title => {
+const onChangeMenuState = (value) => {
+  if (value) {
+    openMenu()
+  } else {
+    closeMenu()
+  }
+}
+
+const onStateChange = (property, value) => {
+  if (state[property] === value) {
+    return
+  }
+
+  if (property === 'mobile') {
+    handleDevice(value)
+  }
+
+  if (property === 'menu') {
+    onChangeMenuState(value)
+  }
+}
+
+const state = new Proxy(
+  {
+    mobile: undefined,
+    menu: false
+  },
+  {
+    set (target, property, value) {
+      onStateChange(property, value)
+      target[property] = value
+      return true
+    }
+  }
+)
+
+const onMenuButtonClick = () => {
+  state.menu = !state.menu
+}
+
+const onMenuLinkClick = () => {
+  setTimeout(() => { state.menu = false }, 250)
+}
+
+const menuButton = document.querySelector('[data-menu-button]')
+menuButton.addEventListener('click', onMenuButtonClick)
+eventListeners.set(menuButton, [onMenuButtonClick])
+
+const menuLinks = document.querySelectorAll('.navigation__links__item a')
+menuLinks.forEach(link => {
+  link.addEventListener('click', onMenuLinkClick)
+  eventListeners.set(menuLinks, [onMenuLinkClick])
+})
+
+gsap.set('.navigation__inner__links', {
+  width: 0,
+  overflow: 'hidden',
+  perspective: 300
+})
+
+gsap.set('.navigation__links__item', {
+  overflowY: 'clip'
+})
+
+gsap.utils.toArray('.section__title').forEach((title, index) => {
   const el = title.querySelector('h1')
   const { lines, words } = SplitType.create(
-    el, 
-    { 
+    el,
+    {
       types: 'lines,words',
       tagName: 'span'
     }
@@ -64,125 +170,22 @@ gsap.utils.toArray('.section__title').forEach(title => {
     ease: 'power4.out',
     stagger: 0.02,
     rotationX: -2,
-    rotationY: -0.2,
+    rotationY: -0.2
   })
-})
-
-gsap.utils.toArray('.section__variant-1__container').forEach(container => {
-  const leftPart = container.querySelector('.section__variant-1__left')
-  gsap.set(leftPart, {
-    position: 'sticky',
-    top: '8rem',
-    perspective: 30,
-  })
-
-  gsap.set('.section__variant-1__title', {
-    opacity: SECTION_1_TITLE_OPACITY
-  })
-
-  const rightPartParagraphs = gsap.utils
-    .toArray(container.querySelectorAll('.section__variant-1__description'))
-  gsap.set(rightPartParagraphs, {
-    paddingTop: '32rem'
-  })
-
-  const leftPartTitles = gsap.utils
-    .toArray(leftPart.querySelectorAll('.section__variant-1__title'))
-
-  const onCurrentTitleChange = observeClassChange((target) => {
-    if (target.classList.contains('active')) {
-      gsap.to(target, {
-        opacity: 1,
-        xPercent: 3,
-        ease: 'power4.out',
-        rotationY: 0.2
-      })
-    } else {
-      gsap.to(target, SECTION_1_TITLE_DEFAULT_STATE, )
-    }
-  })
-
-  leftPartTitles.forEach(el => onCurrentTitleChange.observe(el, { attributes: true }))
-  
-
-  rightPartParagraphs.forEach(paragraph => {
-    new ScrollTrigger({
-      trigger: paragraph,
-      start: 'start center',
-      onToggle: ({isActive}) => {
-        if (isActive) {
-          leftPartTitles.forEach(t => {
-            if (t.dataset[`variant-1TitleIdx`] == paragraph.dataset['variant-1DescIdx']) {
-              t.classList.add('active')
-            } else {
-              t.classList.remove('active')
-            }
-          })
-        }
-      }
-    })
-  })
-})
-
-gsap.set('.section__variant-2__left', {
-  position: 'sticky',
-  top: '8rem',
-  height: '28rem',
-  overflowY: 'clip'
-})
-
-const onLeftPartItemChange = observeClassChange(target => {
-  if (target.classList.contains('active')) {
-    const number = document.querySelectorAll('.section__variant-2__substitle__number')
-    const title = document.querySelectorAll('.section__variant-2__title')
-    const { height } = target.getBoundingClientRect()
-    const index = target.dataset['variant-2ItemIdx']
-    gsap.to([title, number], {
-      y: (index * height) * -1,
-      duration: 1.5,
-      ease: 'power4.out',
-      stagger: 0.01
-    })
-  } 
-})
-
-const leftPartItems = gsap.utils
-  .toArray('.section__variant-2__left__items')
-
-const rightPartParagraphs = gsap.utils
-  .toArray('.section__variant-2__description')
-
-rightPartParagraphs.forEach(paragraph => {
-  new ScrollTrigger({
-    trigger: paragraph,
-    start: 'start center',
-    onToggle: ({isActive}) => {
-      if (isActive) {
-        leftPartItems.forEach(t => {
-          if (t.dataset[`variant-2ItemIdx`] == paragraph.dataset['variant-2DescIdx']) {
-            t.classList.add('active')
-          } else {
-            t.classList.remove('active')
-          }
-        })
-      }
-    }
-  })
-})
-
-leftPartItems.forEach(item => onLeftPartItemChange.observe(item, { attributes: true }))
-
-gsap.set('.section__variant-2__description', {
-  paddingTop: '32rem'
 })
 
 const section3Container = document.querySelector('.section__variant-3__container')
 const section3BulletIndicator = document.querySelector('.section__variant-3__bullet-indicator')
-ScrollTrigger.create({
-  trigger: section3Container,
-  pin: section3BulletIndicator,
-  start: () => `top top`
-})
+const key = 'section-3-bullet-indicator'
+if (!scrollTriggers.has(key)) {
+  ScrollTrigger.create({
+    trigger: section3Container,
+    pin: section3BulletIndicator,
+    start: () => 'top top'
+  })
+  scrollTriggers.add(key)
+}
+
 gsap.utils.toArray('.section__variant-3__item').forEach(item => {
   const itemIndex = item.getAttribute('data-index')
   const span = section3BulletIndicator.querySelector(`[data-index="${itemIndex}"]`)
@@ -194,19 +197,18 @@ gsap.utils.toArray('.section__variant-3__item').forEach(item => {
       trigger: item,
       start: 'top center',
       end: 'bottom center',
-      scrub: true,
+      scrub: true
     }
   })
-
 })
 
 gsap.set('.section__variant-3__item', {
   paddingTop: '32rem'
 })
 
-const section4Container = document.querySelector('#work'),
-  section4Title = section4Container.querySelector('.section__title'),
-  section4Item = section4Container.querySelector('.section__variant-4__item')
+const section4Container = document.querySelector('#work')
+const section4Title = section4Container.querySelector('.section__title')
+const section4Item = section4Container.querySelector('.section__variant-4__item')
 
 gsap.set(section4Title, {
   marginBottom: '16rem'
@@ -225,14 +227,13 @@ gsap.to(section4Title, {
   }
 })
 
-
-gsap.utils.toArray('.section__variant-4__item').forEach(item => {
+gsap.utils.toArray('.section__variant-4__item').forEach((item, index) => {
   const image = item.querySelector('.section__variant-4__image')
   const title = item.querySelector('.section__variant-4__title')
   const subtitle = item.querySelector('.section__variant-4__description')
 
   gsap.set(item, {
-    perspective: 300,
+    perspective: 300
   })
 
   gsap.from(image, {
@@ -242,7 +243,7 @@ gsap.utils.toArray('.section__variant-4__item').forEach(item => {
       start: 'top bottom',
       end: '70% bottom',
       trigger: item,
-      scrub: 2,
+      scrub: 2
     }
   })
 
@@ -253,7 +254,7 @@ gsap.utils.toArray('.section__variant-4__item').forEach(item => {
       start: 'center bottom',
       end: 'center top',
       trigger: item,
-      scrub: true,
+      scrub: true
     }
   })
 
@@ -267,53 +268,38 @@ gsap.utils.toArray('.section__variant-4__item').forEach(item => {
       start: 'center bottom',
       end: 'center top',
       trigger: item,
-      scrub: 2,
+      scrub: 2
     }
   })
 
-  item.addEventListener('mousemove', event => {
-    let xPos = event.clientX / window.innerWidth - 0.5,
-      yPos =  event.clientY / window.innerHeight - 0.5
+  const onMouseMove = (event) => {
+    const xPos = event.clientX / window.innerWidth - 0.5
+    const yPos = event.clientY / window.innerHeight - 0.5
 
     const offset = 4
 
-      gsap.to(image, {
-        ease: 'none',
-        rotationX: () => yPos * -offset,
-        rotationY: () => xPos * offset,
-      })
-  })
-  item.addEventListener('mouseleave', event => {
-      gsap.to(image, {
-        ease: 'power4.out',
-        duration: 1.5,
-        rotationX: 0,
-        rotationY: 0,
-      })
-  })
-})
-
-
-const section5Wrapper = document.querySelector('.section__variant-5__wrapper'),
-  section5Container = document.querySelector('#testimonials'),
-  section5WrapperBounds = section5Wrapper.getBoundingClientRect(),
-  section5ItemBounds = document.querySelector('.section__variant-5__item').getBoundingClientRect()
-  
-gsap.to(section5Wrapper, {
-  x: -section5WrapperBounds.width + section5ItemBounds.width,
-  ease: 'none',
-  scrollTrigger: {
-    pin: section5Container,
-    trigger: section5Container,
-    start: 'top 10%',
-    end: () => `+=${section5WrapperBounds.width} bottom`,
-    scrub: 1
+    gsap.to(image, {
+      ease: 'none',
+      rotationX: () => yPos * -offset,
+      rotationY: () => xPos * offset
+    })
   }
+
+  const onMouseLeave = () => {
+    gsap.to(image, {
+      ease: 'power4.out',
+      duration: 1.5,
+      rotationX: 0,
+      rotationY: 0
+    })
+  }
+
+  item.addEventListener('mousemove', onMouseMove)
+  item.addEventListener('mouseleave', onMouseLeave)
 })
 
 const section6Container = document.querySelector('.section__variant-6__container')
 const section6Arrows = Array.from(section6Container.querySelectorAll('.section__variant-6__arrow'))
-
 
 const section6ItemHeight = '7.725rem'
 
@@ -324,7 +310,7 @@ const closeSection6Item = (index) => {
   gsap.to(`[data-variant-6-item-index="${index}"]`, {
     height: section6ItemHeight,
     duration: 1,
-    ease: 'power4.out'
+    ease: 'power4.inOut'
   })
 }
 const openSection6Item = (index) => {
@@ -334,16 +320,15 @@ const openSection6Item = (index) => {
   gsap.to(`[data-variant-6-item-index="${index}"]`, {
     height: 'auto',
     duration: 1,
-    ease: 'power4.out'
+    ease: 'power4.inOut'
   })
 }
 
-const onChangeSection6State = ({index, value}) => {
-  value 
-    ? openSection6Item(index) 
+const onChangeSection6State = ({ index, value }) => {
+  value
+    ? openSection6Item(index)
     : closeSection6Item(index)
 }
-
 
 const section6StateMap = new Proxy(
   section6Arrows.reduce((map, arrow) => {
@@ -353,13 +338,13 @@ const section6StateMap = new Proxy(
       [index]: false
     }
   }),
- {
-  set(target, property, value) {
-    onChangeSection6State({index: property, value})
-    target[property] = value;
-    return true;
-  }
-})
+  {
+    set (target, property, value) {
+      onChangeSection6State({ index: property, value })
+      target[property] = value
+      return true
+    }
+  })
 
 const onSection6ItemClick = (e) => {
   const index = e.currentTarget.getAttribute('data-variant-6-item-index')
@@ -367,7 +352,10 @@ const onSection6ItemClick = (e) => {
 }
 
 const section6Items = gsap.utils.toArray(section6Container.querySelectorAll('.section__variant-6__item'))
-section6Items.forEach(item => item.addEventListener('click', onSection6ItemClick))
+section6Items.forEach(item => {
+  item.addEventListener('click', onSection6ItemClick)
+  eventListenersDesktop.set(item, [onSection6ItemClick])
+})
 
 gsap.from(section6Items, {
   scrollTrigger: {
@@ -379,78 +367,61 @@ gsap.from(section6Items, {
   stagger: 0.1
 })
 
-const onChangeMenuState = ({ value }) => {
-  if (value) {
-    gsap.set('.navigation__links__item a', {
-      yPercent: 100
+// https://codepen.io/GreenSock/pen/ExKNEXY
+function getSamePageAnchor (link) {
+  if (
+    link.protocol !== window.location.protocol ||
+    link.host !== window.location.host ||
+    link.pathname !== window.location.pathname ||
+    link.search !== window.location.search
+  ) {
+    return false
+  }
+
+  return link.hash
+}
+
+function scrollToHash (hash, e) {
+  const elem = hash ? document.querySelector(hash) : false
+  if (elem) {
+    if (e) e.preventDefault()
+    gsap.to(window, {
+      scrollTo: elem,
+      duration: 1.5
     })
-    const tl = gsap.timeline({
-    })
-    tl.to('.navigation__inner__links', {
-      width: '50%',
-      duration: 1.5,
-      ease: 'power4.inOut'
-    })
-    .to('.navigation__links__item a', {
-      yPercent: 0,
-      duration: 1.5,
-      ease: 'power4.out',
-      stagger: 0.1
-    }, '-=1')
-  } else {
-    const tl = gsap.timeline()
-    tl.to('.navigation__links__item a', {
-      yPercent: 100,
-      duration: 1.5,
-      ease: 'power4.out'
-    })
-    .to('.navigation__inner__links', {
-      width: 0,
-      duration: 1.5,
-      ease: 'power4.out'
-    }, '-=1.3')
   }
 }
 
-gsap.set('.navigation__inner__links', {
-  width: 0,
-  overflow: 'hidden',
-  perspective: 300
+document.querySelectorAll('a[href]').forEach(a => {
+  a.addEventListener('click', e => {
+    scrollToHash(getSamePageAnchor(a), e)
+  })
 })
 
-gsap.set('.navigation__links__item', {
-  overflowY: 'clip'
-})
-
-const menuState = new Proxy({
-  open: false
-},
-{
-  set(target, property, value) {
-    onChangeMenuState({ value })
-    target[property] = value;
-    return true;
-  }
-})
-
-const onMenuButtonClick = () => {
-  menuState.open = !menuState.open
-}
-
-const onMenuLinkClick = () => {
-  setTimeout(() => menuState.open = false, 250)
-}
-
-const menuButton = document.querySelector('[data-menu-button]')
-menuButton.addEventListener('click', onMenuButtonClick)
-
-const menuLinks = document.querySelectorAll('.navigation__links__item a')
-menuLinks.forEach(link => link.addEventListener('click', onMenuLinkClick))
-
-
+scrollToHash(window.location.hash)
 
 gsap.utils.toArray('[data-src]').forEach(async img => {
   const src = img.getAttribute('data-src')
   img.src = src
 })
 
+const isMobile = () => {
+  return !(window.innerWidth > 768)
+}
+
+let resizeTimeout
+const handleResize = () => {
+  clearTimeout(resizeTimeout)
+
+  resizeTimeout = setTimeout(() => {
+    state.mobile = isMobile()
+  }, 200)
+}
+
+window.addEventListener('resize', handleResize)
+
+if (state.mobile === undefined) {
+  state.mobile = isMobile()
+}
+
+console.log('I got you: https://github.com/rkessal/portfolio-v3')

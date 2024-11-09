@@ -20,14 +20,27 @@ footer.footer {
   flex-direction: row;
   text-align: center;
   margin-bottom: 4rem;
+
+  @include media('<=phone') {
+    flex-direction: column;
+  }
 }
 
 .footer__links__item {
   text-transform: uppercase;
 
-  &:not(:last-child) {
-    margin-right: 2.25rem;
+  @include media('>phone') {
+    &:not(:last-child) {
+      margin-right: 2.25rem;
+    }
   }
+
+  @include media('<=phone') {
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
 }
 
 .footer__contact {
@@ -57,8 +70,19 @@ footer.footer {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+
+  @include media('<=phone') {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
-.footer__copyrights {}
+.footer__copyrights {
+
+  @include media('<=phone') {
+    order: 1;
+  }
+}
 
 .footer__privacy {}

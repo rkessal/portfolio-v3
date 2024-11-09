@@ -15,16 +15,11 @@ async function middleware (req, res, next) {
     }`,
   })
 
-  console.dir(navigation, { depth: null })
-
   res.locals = {
     ...res.locals,
-    // preloader,
-    // meta,
     linkResolver,
     navigation,
     footer,
-    // whatsapp,
     PrismicDOM
   }
 

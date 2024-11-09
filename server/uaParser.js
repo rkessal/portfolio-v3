@@ -2,7 +2,7 @@ const UAParser = require('ua-parser-js')
 
 async function withUaParser (req, res, next) {
   const ua = UAParser(req.headers['user-agent'])
-  res.locals.isPhone = ua.device.type === 'mobile'
+  res.locals.device = ua.device.type
   return next()
 }
 

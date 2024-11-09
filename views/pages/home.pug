@@ -11,7 +11,6 @@ block content
       .hero__ctas
         a.hero__ctas__secondary(href=PrismicDOM.asLink(document.data.hero_cta_secondary)) Discover
         a.hero__ctas__primary(href=PrismicDOM.asLink(document.data.hero_cta_primary)) Start Now
-      .hero__introduction!=(PrismicDOM.asHTML(document.data.hero_introduction))
     
     each slice in document.data.body
       if slice.slice_type == 'section_variant_1'
@@ -26,6 +25,11 @@ block content
               .section__variant-1__right
                 each item, index in slice.items
                   .section__variant-1__description(data-variant-1-desc-idx=index)!=(PrismicDOM.asHTML(item.section_part_description))
+            .section__variant-1__mobile
+              each item, index in slice.items
+                .section__variant-1__item
+                  h2.section__variant-1__title(data-variant-1-title-idx=index)=item.section_part_title
+                  .section__variant-1__description(data-variant-1-desc-idx=index)!=(PrismicDOM.asHTML(item.section_part_description))
 
           if (slice.primary.section_variant == '2')
             .section__variant-2__container
@@ -39,6 +43,11 @@ block content
               .section__variant-2__right
                 each item, index in slice.items
                   .section__variant-2__description(data-variant-2-desc-idx=index)!=(PrismicDOM.asHTML(item.section_part_description))
+            .section__variant-2__mobile
+              each item, index in slice.items
+                h2.section__variant-2__title=item.section_part_title
+                .section__variant-2__description(data-variant-2-desc-idx=index)!=(PrismicDOM.asHTML(item.section_part_description))
+
 
           if (slice.primary.section_variant == '3')
             .section__variant-3__container

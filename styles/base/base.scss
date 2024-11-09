@@ -14,6 +14,11 @@ body {
   font-family: $font-sans;
   color: $color-secondary;
   height: 100%;
+
+  @include media('<=phone') {
+    font-size: 2rem;
+  }
+
 }
 
 
@@ -32,4 +37,15 @@ h3 {
 .content {
   padding-top: 6rem;
   padding-bottom: 16rem;
+
+  @include media('<=phone') {
+    padding-bottom: 48rem;
+  }
+}
+
+
+button {
+  @include media('<=phone') {
+    min-width: col(8);
+  }
 }
