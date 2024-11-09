@@ -37,6 +37,12 @@
   }
 }
 
+.navigation__links__locale {
+  @include media('<=phone') {
+    display: none;
+  }
+}
+
 .navigation__inner__links {
   position: absolute;
   display: flex;
