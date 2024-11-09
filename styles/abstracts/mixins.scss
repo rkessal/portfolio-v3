@@ -51,10 +51,15 @@
 }
 
 @mixin button($primary) {
-  min-width: col(2);
+  min-width: col(1);
   background-color: if($primary, $color-secondary, $color-primary);
   color: if($primary, $color-primary, $color-secondary);
   border: if($primary, null, 1px solid $color-secondary );
   padding: 0.625rem 1rem;
   border-radius: 999px;
+
+  @include media('<=phone') {
+    padding: 1rem 2.5rem;
+  }
+
 }

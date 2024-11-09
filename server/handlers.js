@@ -5,7 +5,6 @@ async function homeHandler (req, res) {
   const document = await client.getSingle('home', {
     graphQuery: homeQuery
   })
-  console.dir(document, { depth: null })
   res.render('pages/home', {
     document
   })
