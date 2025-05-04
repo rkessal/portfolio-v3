@@ -10,7 +10,6 @@ const TerserPlugin = require('terser-webpack-plugin')
 const IS_DEVELOPMENT = (process.env.NODE_ENV = 'dev')
 
 const dirApp = path.join(__dirname, 'app')
-const dirStyles = path.join(__dirname, 'styles')
 const dirAssets = path.join(__dirname, 'assets')
 const dirViews = path.join(__dirname, 'views')
 const dirConfig = path.join(__dirname, 'config')
@@ -19,10 +18,10 @@ const dirPublic = path.join(__dirname, 'public')
 const dirNode = 'node_modules'
 
 module.exports = {
-  entry: [path.join(dirApp, 'index.js'), path.join(dirStyles, 'index.scss')],
+  entry: [path.join(dirApp, 'index.js')],
 
   resolve: {
-    modules: [dirPublic, dirApp, dirStyles, dirAssets, dirNode, dirViews, dirConfig, dirMiddlewares]
+    modules: [dirPublic, dirApp, dirAssets, dirNode, dirViews, dirConfig, dirMiddlewares]
   },
 
   optimization: {

@@ -25,7 +25,7 @@
     "eslint-config-standard": "^17.1.0",
     "file-loader": "^6.2.0",
     "glslify-loader": "^2.0.0",
-    "gsap": "^3.12.5",
+    "gsap": "^3.13.0",
     "image-minimizer-webpack-plugin": "^3.8.3",
     "imagemin": "^8.0.1",
     "imagemin-gifsicle": "^7.0.0",
@@ -33,6 +33,7 @@
     "imagemin-optipng": "^8.0.0",
     "include-media": "^2.0.0",
     "install": "^0.13.0",
+    "jpegtran-bin": "^7.0.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.6",
     "nodemon": "^3.0.1",
@@ -47,15 +48,9 @@
     "webpack-merge": "^5.9.0"
   },
   "dependencies": {
-    "@prismicio/client": "^7.1.0",
-    "@prismicio/helpers": "^2.3.9",
-    "@studio-freight/lenis": "^1.0.34",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "lenis": "^1.1.13",
-    "node-fetch": "^2.6.1",
     "pug": "^3.0.2",
-    "split-type": "^0.3.4",
-    "ua-parser-js": "^1.0.37"
+    "three": "^0.176.0"
   }
 }
