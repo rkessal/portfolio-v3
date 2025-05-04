@@ -27,6 +27,13 @@ html(data-wf-page="680e67910996393aaf49edc1", data-wf-site="680e67910996393aaf49
       | !function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);
     link(rel="shortcut icon", href="images/favicon.png", type="image/x-icon")
     link(rel="apple-touch-icon", href="images/webclip.png")
+
+    script(async src="https://www.googletagmanager.com/gtag/js?id=G-T3SQJEDP4S")
+        script.
+          window.dataLayer = window.dataLayer || []
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date())
+          gtag('config', 'G-T3SQJEDP4S')
     style.
       #bg-particles {
         position: fixed;
