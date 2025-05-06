@@ -34,6 +34,23 @@ html(data-wf-page="680e67910996393aaf49edc1", data-wf-site="680e67910996393aaf49
           function gtag(){dataLayer.push(arguments)}
           gtag('js', new Date())
           gtag('config', 'G-T3SQJEDP4S')
+
+    script.
+      function gtag_report_conversion(url) {
+        var callback = function () {
+          if (typeof(url) != 'undefined') {
+            window.location = url;
+          }
+        };
+        gtag('event', 'conversion', {
+            'send_to': 'AW-16929858312/qV5hCNz7gMIaEIjG5Ig_',
+            'value': 1.0,
+            'currency': 'EUR',
+            'event_callback': callback
+        });
+        return false;
+      }
+
     style.
       #bg-particles {
         position: fixed;
