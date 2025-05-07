@@ -29,11 +29,11 @@ html(data-wf-page="680e67910996393aaf49edc1", data-wf-site="680e67910996393aaf49
     link(rel="apple-touch-icon", href="images/webclip.png")
 
     script(async src="https://www.googletagmanager.com/gtag/js?id=G-T3SQJEDP4S")
-        script.
-          window.dataLayer = window.dataLayer || []
-          function gtag(){dataLayer.push(arguments)}
-          gtag('js', new Date())
-          gtag('config', 'G-T3SQJEDP4S')
+    script.
+      window.dataLayer = window.dataLayer || []
+      function gtag(){dataLayer.push(arguments)}
+      gtag('js', new Date())
+      gtag('config', 'G-T3SQJEDP4S')
 
     script.
       function gtag_report_conversion(url) {
@@ -187,7 +187,7 @@ html(data-wf-page="680e67910996393aaf49edc1", data-wf-site="680e67910996393aaf49
               li Unlimited revisions
               li Webflow / Custom Code
             .plan-cta
-              a.button-primary.white(href="https://buy.stripe.com/7sI6ra14A9fzd4A9AB", target="_blank") Start Your Subscription
+              a.button-primary.white(onclick="return gtag_report_conversion('https://buy.stripe.com/7sI6ra14A9fzd4A9AB');", href="https://buy.stripe.com/7sI6ra14A9fzd4A9AB", target="_blank") Start Your Subscription
               p.plan-notice Pause or cancel anytime
           .plan-block.w-node-cd932ddf-9601-dbc5-700e-06b56cc4be16-af49edc1#plan-custom
             .plan-block-top
